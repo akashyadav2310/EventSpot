@@ -2,8 +2,12 @@ package com.eventspot.eventservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-@SpringBootApplication
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.context.annotation.ComponentScan;
+ 
+@SpringBootApplication(exclude={DataSourceAutoConfiguration.class}, scanBasePackages={
+    "com.eventspot.eventservice.repository"})
+//"com.eventspot.service", "com.eventspot.controller", "com.eventspot.eventservice.model"
 public class EventServiceApplication {
 
 	public static void main(String[] args) {
