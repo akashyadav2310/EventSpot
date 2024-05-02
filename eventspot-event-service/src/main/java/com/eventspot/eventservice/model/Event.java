@@ -1,14 +1,11 @@
 package com.eventspot.eventservice.model;
 
-import java.util.Date;
+import jakarta.persistence.Entity;
 import jakarta.persistence.*;
-import lombok.*;
+import java.util.Date;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
-@Table(name = "event")
+@Table(name = "events")
 public class Event {
     
      @Id
