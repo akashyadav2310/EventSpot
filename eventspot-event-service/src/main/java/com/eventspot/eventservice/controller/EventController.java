@@ -8,16 +8,12 @@ import com.eventspot.eventservice.exception.ResourceNotFoundException;
 import com.eventspot.eventservice.model.Event;
 import com.eventspot.eventservice.model.EventDTO;
 import com.eventspot.eventservice.service.EventService;
+import com.eventspot.eventservice.util.DTOConverter;
 
 @RestController
 @RequestMapping("/api/event")
 public class EventController {
-  
-//
-//@RestController
-//@RequestMapping("/api/events")
-//public class EventController {
-//    
+      
     @Autowired
     private EventService eventService;
   
@@ -30,43 +26,30 @@ public class EventController {
     @GetMapping
     public List<EventDTO> getAllEvents(){
       List<Event> listOfEvents = eventService.getAllEvents();
-      return convertToDTO(listOfEvents);
-      //return eventService.getAllEvents() ;
+      return DTOConverter.convertListToDTO(listOfEvents);   // Convert Events to EventDTO's
     }
     
     @GetMapping("/{eventId}")
     public EventDTO getEvent(@PathVariable Long eventId){
       Event event = eventService.getEvent(eventId);
-      return convertToDTO(event);
+      return DTOConverter.convertToDTO(event);   // Convert Event to EventDTO
     }
 
     @PostMapping
-    public Event createEvent(@RequestBody Event event) {
-        return eventService.createEvent(event);
+    public EventDTO createEvent(@RequestBody EventDTO eventDTO) {
+        Event event = eventService.createEvent(DTOConverter.convertToEntity(eventDTO)); // Convert EventDTO to Event
+        return DTOConverter.convertToDTO(event); // Convert Event to EventDTO
     }
     
     @PutMapping("/{eventId}")
-    public Event updateEvent(@PathVariable Long eventId, @RequestBody Event event) throws ResourceNotFoundException {
-        return eventService.updateEvent(eventId, event);
+    public EventDTO updateEvent(@PathVariable Long eventId, @RequestBody EventDTO eventDTO) throws ResourceNotFoundException {
+      Event event = eventService.updateEvent(eventId, DTOConverter.convertToEntity(eventDTO)); // Convert EventDTO to Event
+      return DTOConverter.convertToDTO(event); // Convert Event to EventDTO
     } 
     
     @DeleteMapping("/{eventId}")
     public void deleteEvent(@PathVariable Long eventId) throws ResourceNotFoundException {
       eventService.deleteEvent(eventId);
-    }
-    
-    public static EventDTO convertToDTO(Event event) {
-        EventDTO dto = new EventDTO();
-        dto.setEventId(event.getEventId());
-        dto.setEventName(event.getEventName());
-        dto.setEventDescription(event.getEventDescription());
-        dto.setEventDate(event.getEventDate());
-        dto.setLocation(event.getLocation());
-        return dto;
-    }
-    
-    public static List<EventDTO> convertToDTO(List<Event> events) {
-        return events.stream().map(EventController::convertToDTO).collect(Collectors.toList());
     }
     
 }

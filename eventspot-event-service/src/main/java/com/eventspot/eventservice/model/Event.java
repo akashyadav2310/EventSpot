@@ -1,6 +1,7 @@
 package com.eventspot.eventservice.model;
 
 import jakarta.persistence.Entity;
+import lombok.Data;
 import jakarta.persistence.*;
 import java.util.Date;
 
@@ -8,21 +9,34 @@ import java.util.Date;
 @Table(name = "events")
 public class Event {
     
-     @Id
-     @GeneratedValue(strategy = GenerationType.IDENTITY)
-     private Long eventId;
-     
-     @Column(nullable = false)
-     private String eventName;
-     
-     @Column(nullable = false, length = 1000)
-     private String eventDescription;
-     
-     @Column(nullable = false)
-     private Date eventDate;
-     
-     @Column(nullable = false)
-     private String location;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long eventId;
+  
+    @Column(name = "event_name", nullable = false)
+    private String eventName;
+  
+    @Column(name = "event_description", nullable = false, length = 1000)
+    private String eventDescription;
+  
+    @Column(name = "event_date", nullable = false)
+    private Date eventDate;
+  
+    @Column(name = "location", nullable = false)
+    private String location;
+
+    public Event() {
+      
+    }
+    
+    public Event(Long eventId, String eventName, String eventDescription, Date eventDate,
+        String location) {
+      this.eventId = eventId;
+      this.eventName = eventName;
+      this.eventDescription = eventDescription;
+      this.eventDate = eventDate;
+      this.location = location;
+    }
 
     public Long getEventId() {
       return eventId;
@@ -63,5 +77,6 @@ public class Event {
     public void setLocation(String location) {
       this.location = location;
     }
-    
+        
 }
+
