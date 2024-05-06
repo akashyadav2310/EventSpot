@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import com.eventspot.bookingservice.exception.EventNotFoundException;
 import com.eventspot.bookingservice.exception.ResourceNotFoundException;
+import com.eventspot.bookingservice.exception.UserNotFoundException;
 import com.eventspot.bookingservice.model.Booking;
 import com.eventspot.bookingservice.model.BookingDTO;
 import com.eventspot.bookingservice.service.BookingService;
@@ -46,7 +48,7 @@ public class BookingController {
      }
 
     @PostMapping
-    public ResponseEntity<BookingDTO> createBooking(@RequestBody BookingDTO bookingDTO) {
+    public ResponseEntity<BookingDTO> createBooking(@RequestBody BookingDTO bookingDTO) throws UserNotFoundException, EventNotFoundException {
         Booking createdBooking = bookingService.createBooking(DTOConverter.convertToEntity(bookingDTO));
         return ResponseEntity.status(HttpStatus.CREATED).body(DTOConverter.convertToDTO(createdBooking));
     }

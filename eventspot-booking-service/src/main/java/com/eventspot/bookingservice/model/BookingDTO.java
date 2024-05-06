@@ -8,7 +8,7 @@ public class BookingDTO {
     
       private Long eventId;
     
-      private Long userId;
+      private String userId;
     
       private Date bookingDate;
     
@@ -22,7 +22,7 @@ public class BookingDTO {
         
       }
       
-      public BookingDTO(Long id, Long eventId, Long userId, Date bookingDate, String bookingStatus,
+      public BookingDTO(Long id, Long eventId, String userId, Date bookingDate, String bookingStatus,
           int ticketCount, double totalPrice) {
           this.id = id;
           this.eventId = eventId;
@@ -49,11 +49,11 @@ public class BookingDTO {
         this.eventId = eventId;
       }
     
-      public Long getUserId() {
+      public String getUserId() {
         return userId;
       }
     
-      public void setUserId(Long userId) {
+      public void setUserId(String userId) {
         this.userId = userId;
       }
     
