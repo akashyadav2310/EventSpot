@@ -42,7 +42,7 @@ public class BookingController {
     }
     
     @GetMapping("/{bookingId}")
-    public BookingDTO getEvent(@PathVariable Long bookingId){
+    public BookingDTO getBooking(@PathVariable Long bookingId)  throws ResourceNotFoundException{
       Booking booking = bookingService.getBooking(bookingId);
       return DTOConverter.convertToDTO(booking);   // Convert Event to EventDTO
      }
@@ -54,7 +54,7 @@ public class BookingController {
     }
     
     @PutMapping("/{bookingId}") 
-    public ResponseEntity<BookingDTO> updateBooking(@PathVariable Long bookingId, @RequestBody BookingDTO bookingDTO) throws ResourceNotFoundException { 
+    public ResponseEntity<BookingDTO> updateBooking(@PathVariable Long bookingId, @RequestBody BookingDTO bookingDTO) throws UserNotFoundException, EventNotFoundException, ResourceNotFoundException { 
         Booking updatedBooking = bookingService.updateBooking(bookingId, DTOConverter.convertToEntity(bookingDTO));
         return ResponseEntity.status(HttpStatus.CREATED).body(DTOConverter.convertToDTO(updatedBooking));
     }

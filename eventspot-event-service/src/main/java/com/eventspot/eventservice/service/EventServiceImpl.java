@@ -1,7 +1,9 @@
 package com.eventspot.eventservice.service;
 
+import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import com.eventspot.eventservice.exception.ResourceNotFoundException;
@@ -20,8 +22,11 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public Event getEvent(Long eventId) {
-      return eventRepo.getById(eventId);
+    public Event getEvent(Long eventId) throws ResourceNotFoundException {
+      // Check if event exists
+      return eventRepo.findById(eventId).orElseThrow( () -> new ResourceNotFoundException (("Event not found with id: " + eventId)) );
+      
+      //return eventRepo.getById(eventId);
     }
 
     @Override
@@ -52,5 +57,11 @@ public class EventServiceImpl implements EventService {
        
       eventRepo.deleteById(eventId);
     }
+
+//    @Override
+//    public List<Event> searchEvents(String eventName, Date eventDate, String location) {
+//      // Implement search logic based on the provided criteria
+//      return eventRepo.searchEvents(eventName, eventDate, location);
+//    }
     
 }

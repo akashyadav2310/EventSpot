@@ -12,11 +12,11 @@ public interface BookingService {
 
     public List<Booking> getAllBookings();
   
-    public Booking getBooking(Long bookingId);
+    public Booking getBooking(Long bookingId)  throws ResourceNotFoundException;
   
     public Booking createBooking(Booking booking) throws UserNotFoundException, EventNotFoundException;
     
-    public Booking updateBooking(Long bookingId, Booking booking) throws ResourceNotFoundException;
+    public Booking updateBooking(Long bookingId, Booking booking) throws UserNotFoundException, EventNotFoundException, ResourceNotFoundException;
     
     public boolean deleteBooking(Long bookingId);
     

@@ -31,8 +31,9 @@ public class BookingServiceImpl implements BookingService{
     }
   
     @Override
-    public Booking getBooking(Long bookingId) {
-      return bookingRepo.getById(bookingId);
+    public Booking getBooking(Long bookingId) throws ResourceNotFoundException {
+      return bookingRepo.findById(bookingId).orElseThrow( () -> new ResourceNotFoundException (("Booking not found with id: " + bookingId)) );
+      //return bookingRepo.getById(bookingId);
     }
 
     @Override
@@ -53,9 +54,21 @@ public class BookingServiceImpl implements BookingService{
     }
 
     @Override
-    public Booking updateBooking(Long bookingId, Booking booking) throws ResourceNotFoundException {
+    public Booking updateBooking(Long bookingId, Booking booking) throws UserNotFoundException, EventNotFoundException, ResourceNotFoundException {
       Booking existingBooking = bookingRepo.findById(bookingId).orElseThrow( () -> new ResourceNotFoundException (("Booking not found with id: " + bookingId)) );
 
+      // Validate user ID by calling User Service API
+      UserDTO user = restTemplate.getForObject("http://localhost:8088/api/user/{userId}", UserDTO.class, booking.getUserId());
+      if (user == null) {
+          throw new UserNotFoundException("User not found with ID: " + booking.getUserId());
+      }
+
+      // Validate event ID by calling Event Service API
+      EventDTO event = restTemplate.getForObject("http://localhost:8080/api/event/{eventId}", EventDTO.class, booking.getEventId());
+      if (event == null) {
+          throw new EventNotFoundException("Event not found with ID: " + booking.getEventId());
+      }
+      
       existingBooking.setEventId(booking.getEventId());
       existingBooking.setUserId(booking.getUserId());
       existingBooking.setBookingDate(booking.getBookingDate());
