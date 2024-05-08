@@ -1,9 +1,11 @@
 package com.eventspot.userservice.service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.eventspot.userservice.enums.UserRole;
 import com.eventspot.userservice.exception.UserNotFoundException;
 import com.eventspot.userservice.model.User;
 import com.eventspot.userservice.repository.UserRepository;
@@ -27,7 +29,10 @@ public class UserServiceImpl implements UserService{
     
     @Override
     public User createUser(User user) {
-      return userRepository.save(user);
+        // Assign default role USER to new users
+        user.setRoles(Collections.singleton(UserRole.USER));
+        // Save user to database
+        return userRepository.save(user);
     }
 
     @Override

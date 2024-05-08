@@ -1,7 +1,9 @@
 package com.eventspot.userservice.model;
 
+import java.util.Set;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import com.eventspot.userservice.enums.UserRole;
 
 @Document(collection = "users")
 public class User {
@@ -15,7 +17,7 @@ public class User {
       
       private String email;
       
-      private String roles;
+      private Set<UserRole> roles;
       
 
       public String getUserId() {
@@ -50,12 +52,12 @@ public class User {
         this.email = email;
       }
 
-      public String getRoles() {
+      public Set<UserRole> getRoles() {
         return roles;
       }
 
-      public void setRoles(String roles) {
+      public void setRoles(Set<UserRole> roles) {
         this.roles = roles;
       }
-      
+
 }
